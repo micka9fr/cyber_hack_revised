@@ -10,7 +10,7 @@
   "authors": {
     "name": "Meka"
   },
-  "esmodules": ["module/cyber_hack.js"],
+  "esmodules": ["module/cyber-hack.js"],
   "styles": ["css/cyber_hack.css"],
   "languages": [
     {
