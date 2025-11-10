@@ -1,0 +1,52 @@
+.cyberhack-sheet {
+    font-family: 'Courier New', monospace;
+    background: #000;
+    color: #00ff00;
+    border: 2px solid #000;
+}
+
+.cyberpunk-header {
+    border-bottom: 3px solid #fff;
+    padding: 10px;
+}
+
+.attributes-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 10px;
+}
+
+.attribute-block {
+    border: 1px solid #fff;
+    padding: 5px;
+}
+
+.skill-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+}
+
+.sidebar {
+    width: 300px;
+    padding-left: 10px;
+    border-left: 2px solid #fff;
+}
+
+.armor-grid, .ranges-section table {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 5px;
+}
+
+.resource-box {
+    border: 1px solid #fff;
+    margin: 2px;
+    padding: 2px;
+}
+
+.sheet-footer {
+    border-top: 2px solid #fff;
+    padding-top: 10px;
+}

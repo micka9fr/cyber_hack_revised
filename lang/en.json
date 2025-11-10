@@ -3,10 +3,14 @@
     "Wounds": "Wounds",
     "BTM": "BTM",
     "Armor": "Armor",
-    "Head": "Head",
-    "Torso": "Torso",
-    "Items": "Inventory",
-    "Bio": "Biography",
+    "Cyberware": "Cyberware",
+    "Ranges": "Ranges",
+    "Speed": "Speed",
+    "Carry": "Carry",
+    "Luck": "Luck",
+    "OtherInfo": "Other Info",
+    "Inventory": "Inventory",
+    "Bio": "Bio",
     "Roll": "Roll"
   }
 }

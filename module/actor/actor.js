@@ -1,185 +1,83 @@
-/**
- * Cyber Hack (Revised) - Actor Class
- * Compatible avec Foundry VTT v13
- */
+// module/actor/actor.js
 export class CyberHackActor extends Actor {
 
     /** @override */
-    prepareData() {
-        // Préparation des données brutes
-        super.prepareData();
-    }
-
-    /** @override */
     prepareBaseData() {
-        // Initialisation des données de base
         const system = this.system;
 
-        // --- Assurer la structure de base ---
-        if (!system.wounds) {
-            system.wounds = { value: 10, min: 0, max: 10, label: "Wounds" };
+        // --- INITIALISATION FORCÉE ---
+        if (!system.attributs) {
+            system.attributs = {
+                body: { value: 5, label: "Body", skills: {} },
+                dexterity: { value: 5, label: "Dexterity", skills: {} },
+                reflexes: { value: 5, label: "Reflexes", skills: {} },
+                knowledge: { value: 5, label: "Knowledge", skills: {} },
+                willpower: { value: 5, label: "Willpower", skills: {} },
+                empathy: { value: 5, label: "Empathy", skills: {} }
+            };
         }
-        if (!system.btm) {
-            system.btm = { value: 0, label: "BTM" };
-        }
+
+        // Initialiser les champs manquants
+        if (!system.wounds) system.wounds = { value: 0, max: 0 };
+        if (!system.btm) system.btm = { value: 0 };
+        if (!system.speed) system.speed = { value: 0 };
+        if (!system.carry) system.carry = { value: 0 };
+        if (!system.luck) system.luck = { value: 0 };
+        if (!system.otherInfo) system.otherInfo = { value: "" };
         if (!system.armor) {
             system.armor = {
-                head: { value: 0, label: "Head" },
-                torso: { value: 0, label: "Torso" }
+                head: { value: 0 }, torso: { value: 0 },
+                rightArm: { value: 0 }, leftArm: { value: 0 },
+                rightLeg: { value: 0 }, leftLeg: { value: 0 }
+            };
+        }
+        if (!system.ranges) {
+            system.ranges = {
+                handguns: { close: 50, medium: 100, long: 200, extreme: 400 },
+                smgRifles: { close: 100, medium: 200, long: 400, extreme: 800 },
+                shotgun: { close: 50, medium: 100, long: 200, extreme: 0 }
             };
         }
     }
 
     /** @override */
     prepareDerivedData() {
-        const actorData = this;
-        const system = actorData.system;
-        const flags = actorData.flags;
+        const system = this.system;
+        const body = system.attributs.body.value;
+        const ref = system.attributs.reflexes.value;
 
-        // Ne rien faire si pas de système
-        if (!system) return;
+        system.wounds.max = body * 5;
+        system.wounds.value = Math.clamped(system.wounds.value ?? 0, 0, system.wounds.max);
+        system.btm.value = this._calcBTM(body);
+        system.speed.value = ref;
+        system.carry.value = body * 10;
 
-        // Préparation selon le type
-        if (actorData.type === 'character') {
-            this._prepareCharacterData(actorData);
-        } else if (actorData.type === 'NPC') {
-            this._prepareNPCData(actorData);
-        }
+        this._calcSkills();
     }
 
-    /**
-     * Préparation des données pour les personnages
-     */
-    _prepareCharacterData(actor) {
-        const system = actor.system;
-
-        // --- Calcul du BTM et des PV max en fonction de BODY ---
-        const body = system.attributs?.body?.value ?? 0;
-        system.btm.value = this._calculateBTM(body);
-        system.wounds.max = this._calculateMaxWounds(body);
-
-        // Clamp des PV actuels
-        system.wounds.value = Math.clamped(
-            system.wounds.value ?? system.wounds.max,
-            system.wounds.min,
-            system.wounds.max
-        );
-
-        // --- Calcul des compétences ---
-        this._calculateAllSkills(system);
-
-        // --- Initiative ---
-        const ref = system.attributs?.reflexes?.value ?? 0;
-        system.initiative = system.initiative || {};
-        system.initiative.value = ref;
+    _calcBTM(body) {
+        if (body <= 2) return 0;
+        if (body <= 4) return -1;
+        if (body <= 6) return -2;
+        if (body <= 8) return -3;
+        if (body <= 10) return -4;
+        return -5;
     }
 
-    /**
-     * Préparation des données pour les PNJ
-     */
-    _prepareNPCData(actor) {
-        const system = actor.system;
-
-        // Même logique que personnage, mais plus légère
-        const body = system.attributs?.body?.value ?? 0;
-        system.btm.value = this._calculateBTM(body);
-        system.wounds.max = this._calculateMaxWounds(body);
-        system.wounds.value = Math.clamped(system.wounds.value ?? 10, 0, system.wounds.max);
-
-        this._calculateAllSkills(system);
-    }
-
-    // ==================================================================
-    // FONCTIONS DE CALCUL
-    // ==================================================================
-
-    /**
-     * Calcule le BTM selon la table Cyberpunk
-     */
-    _calculateBTM(body) {
-        if (body <= 1) return 0;
-        if (body <= 2) return -1;
-        if (body <= 4) return -2;
-        if (body <= 7) return -3;
-        if (body <= 9) return -4;
-        if (body <= 11) return -5;
-        return -6;
-    }
-
-    /**
-     * Calcule les PV max : (BODY x 5)
-     */
-    _calculateMaxWounds(body) {
-        return Math.max(1, body * 5);
-    }
-
-    /**
-     * Parcourt tous les attributs et calcule les compétences
-     */
-    _calculateAllSkills(system) {
-        const attributs = system.attributs || {};
-
-        for (const [attrKey, attr] of Object.entries(attributs)) {
-            if (!attr.skills) continue;
-
-            for (const [skillKey, skill] of Object.entries(attr.skills)) {
-                // Initialisation si manquant
-                if (skill.base === undefined) skill.base = 0;
-                if (skill.mod === undefined) skill.mod = 0;
-
-                // Calcul de la valeur finale
-                skill.value = skill.base + skill.mod;
-
-                // Ajout du label si vide
-                if (!skill.label || skill.label === "") {
-                    skill.label = this._formatSkillLabel(skillKey);
-                }
+    _calcSkills() {
+        const system = this.system;
+        for (const attr of Object.values(system.attributs)) {
+            for (const [key, skill] of Object.entries(attr.skills)) {
+                skill.value = (skill.base || 0) + (skill.mod || 0);
+                if (!skill.label) skill.label = this._formatLabel(key);
             }
         }
     }
 
-    /**
-     * Formate les noms de compétences
-     */
-    _formatSkillLabel(key) {
+    _formatLabel(key) {
         return key
             .replace(/([A-Z])/g, ' $1')
-            .replace(/^./, str => str.toUpperCase())
+            .replace(/^./, s => s.toUpperCase())
             .trim();
-    }
-
-    // ==================================================================
-    // ROLL DATA (pour les macros)
-    // ==================================================================
-
-    /** @override */
-    getRollData() {
-        const data = foundry.utils.deepClone(this.system);
-
-        // Ajouter les attributs directement
-        if (data.attributs) {
-            for (const [key, attr] of Object.entries(data.attributs)) {
-                data[key] = attr.value;
-            }
-        }
-
-        // Ajouter les compétences (ex: @skills.endurance.value)
-        data.skills = {};
-        if (data.attributs) {
-            for (const [attrKey, attr] of Object.entries(data.attributs)) {
-                if (attr.skills) {
-                    for (const [skillKey, skill] of Object.entries(attr.skills)) {
-                        data.skills[skillKey] = skill.value;
-                    }
-                }
-            }
-        }
-
-        // Valeurs utiles
-        data.btm = data.btm?.value ?? 0;
-        data.wounds = data.wounds?.value ?? 0;
-        data.initiative = data.initiative?.value ?? 0;
-
-        return data;
     }
 }

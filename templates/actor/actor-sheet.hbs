@@ -1,90 +1,206 @@
-<form class="cyberhack-sheet character" autocomplete="off">
-    <header class="sheet-header">
-        <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" />
-        <div class="header-fields">
-            <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="Nom" /></h1>
-            <div class="grid grid-3col">
-                <div class="resource">
-                    <label>{{localize "CYBERHACK.Wounds"}}</label>
-                    <input type="text" name="system.wounds.value" value="{{system.wounds.value}}" data-dtype="Number" />
-                    <span>/</span>
-                    <input type="text" value="{{system.wounds.max}}" disabled />
-                </div>
-                <div class="resource">
-                    <label>BTM</label>
-                    <input type="text" value="{{system.btm.value}}" disabled />
-                </div>
-                <div class="resource">
-                    <label>Initiative</label>
-                    <input type="text" value="{{system.initiative.value}}" disabled />
-                    <button type="button" class="roll-initiative" title="Lancer l'initiative">
-                        <i class="fas fa-dice-d10"></i>
-                    </button>
-                </div>
-            </div>
+<form class="cyberhack-sheet flexcol" autocomplete="off">
+  <!-- DEBUG -->
+  {{!-- <pre>{{json system}}</pre> --}}
+
+  <!-- HEADER -->
+  <header class="sheet-header flexrow cyberpunk-header">
+    <div class="header-left">
+      <h1 class="charname">
+        <input name="name" type="text" value="{{actor.name}}" placeholder="NAME" />
+      </h1>
+      <div class="header-resources flexrow">
+        <div class="resource-box">
+          <label>WOUNDS</label>
+          <input type="number" name="system.wounds.value" value="{{system.wounds.value}}" min="0" max="{{system.wounds.max}}" />
+          <span>/ {{system.wounds.max}}</span>
         </div>
-    </header>
-
-    <section class="sheet-body">
-
-        {{!-- Attributs & Compétences --}}
-        <div class="attributes-grid">
-            {{#each system.attributs as |attr key|}}
-            <div class="attribute-block">
-                <div class="attribute-header">
-                    <label class="attribute-label">{{attr.label}}</label>
-                    <input type="number" name="system.attributs.{{key}}.value" value="{{attr.value}}" data-dtype="Number" class="attr-value" />
-                </div>
-                <div class="skills-list">
-                    {{#each attr.skills as |skill skey|}}
-                    <div class="skill-item flexrow">
-                        <span class="skill-name rollable" data-roll="1d10+{{skill.value}}" data-label="{{skill.label}}">{{skill.label}}</span>
-                        <input type="number" name="system.attributs.{{../key}}.skills.{{skey}}.base" value="{{skill.base}}" class="skill-base" placeholder="0" />
-                        <span>+</span>
-                        <input type="number" name="system.attributs.{{../key}}.skills.{{skey}}.mod" value="{{skill.mod}}" class="skill-mod" placeholder="0" />
-                        <span>=</span>
-                        <input type="text" value="{{skill.value}}" disabled class="skill-total" />
-                        <a class="skill-roll" title="Lancer {{skill.label}}">
-                            <i class="fas fa-dice-d10"></i>
-                        </a>
-                    </div>
-                    {{/each}}
-                </div>
-            </div>
-            {{/each}}
+        <div class="resource-box">
+          <label>BTM</label>
+          <input type="number" value="{{system.btm.value}}" disabled />
         </div>
+      </div>
+    </div>
+    <div class="header-right">
+      <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100" width="100" />
+    </div>
+  </header>
 
-        {{!-- Armure --}}
-        <div class="armor-block">
-            <h3>{{localize "CYBERHACK.Armor"}}</h3>
-            <div class="grid grid-2col">
-                <div class="resource">
-                    <label>{{localize "CYBERHACK.Head"}}</label>
-                    <input type="number" name="system.armor.head.value" value="{{system.armor.head.value}}" />
-                </div>
-                <div class="resource">
-                    <label>{{localize "CYBERHACK.Torso"}}</label>
-                    <input type="number" name="system.armor.torso.value" value="{{system.armor.torso.value}}" />
-                </div>
+  <!-- CORPS -->
+  <section class="sheet-body flexrow">
+    <!-- GRILLE 3x2 -->
+    <div class="attributes-grid grid-3x2">
+      <!-- BODY -->
+      <div class="attribute-block">
+        <label>BODY ({{system.attributs.body.value}})</label>
+        <div class="skills-list">
+          {{#each system.attributs.body.skills}}
+            <div class="skill-row flexrow">
+              <span class="skill-name rollable" data-roll="1d10+{{value}}" data-label="{{label}}">{{label}}</span>
+              <input type="number" name="system.attributs.body.skills.{{@key}}.base" value="{{base}}" />
+              <span>+</span>
+              <input type="number" name="system.attributs.body.skills.{{@key}}.mod" value="{{mod}}" />
+              <span>= {{value}}</span>
             </div>
+          {{/each}}
         </div>
+      </div>
 
-        {{!-- Onglets (Items, Biographie, etc.) --}}
-        <nav class="sheet-tabs tabs" data-group="primary">
-            <a class="item" data-tab="items">{{localize "CYBERHACK.Items"}}</a>
-            <a class="item" data-tab="bio">{{localize "CYBERHACK.Bio"}}</a>
-        </nav>
-
-        <section class="sheet-content">
-            {{!-- Items --}}
-            <div class="tab items" data-group="primary" data-tab="items">
-                {{> "systems/cyber_hack_revised/templates/actor/parts/actor-items.hbs"}}
+      <!-- DEXTERITY -->
+      <div class="attribute-block">
+        <label>DEXTERITY ({{system.attributs.dexterity.value}})</label>
+        <div class="skills-list">
+          {{#each system.attributs.dexterity.skills}}
+            <div class="skill-row flexrow">
+              <span class="skill-name rollable" data-roll="1d10+{{value}}" data-label="{{label}}">{{label}}</span>
+              <input type="number" name="system.attributs.dexterity.skills.{{@key}}.base" value="{{base}}" />
+              <span>+</span>
+              <input type="number" name="system.attributs.dexterity.skills.{{@key}}.mod" value="{{mod}}" />
+              <span>= {{value}}</span>
             </div>
+          {{/each}}
+        </div>
+      </div>
 
-            {{!-- Biographie --}}
-            <div class="tab bio" data-group="primary" data-tab="bio">
-                <textarea name="system.biography" rows="6">{{system.biography}}</textarea>
+      <!-- REFLEXES -->
+      <div class="attribute-block">
+        <label>REFLEXES ({{system.attributs.reflexes.value}})</label>
+        <div class="skills-list">
+          {{#each system.attributs.reflexes.skills}}
+            <div class="skill-row flexrow">
+              <span class="skill-name rollable" data-roll="1d10+{{value}}" data-label="{{label}}">{{label}}</span>
+              <input type="number" name="system.attributs.reflexes.skills.{{@key}}.base" value="{{base}}" />
+              <span>+</span>
+              <input type="number" name="system.attributs.reflexes.skills.{{@key}}.mod" value="{{mod}}" />
+              <span>= {{value}}</span>
             </div>
-        </section>
-    </section>
+          {{/each}}
+        </div>
+      </div>
+
+      <!-- KNOWLEDGE -->
+      <div class="attribute-block">
+        <label>KNOWLEDGE ({{system.attributs.knowledge.value}})</label>
+        <div class="skills-list">
+          {{#each system.attributs.knowledge.skills}}
+            <div class="skill-row flexrow">
+              <span class="skill-name rollable" data-roll="1d10+{{value}}" data-label="{{label}}">{{label}}</span>
+              <input type="number" name="system.attributs.knowledge.skills.{{@key}}.base" value="{{base}}" />
+              <span>+</span>
+              <input type="number" name="system.attributs.knowledge.skills.{{@key}}.mod" value="{{mod}}" />
+              <span>= {{value}}</span>
+            </div>
+          {{/each}}
+        </div>
+      </div>
+
+      <!-- WILLPOWER -->
+      <div class="attribute-block">
+        <label>WILLPOWER ({{system.attributs.willpower.value}})</label>
+        <div class="skills-list">
+          {{#each system.attributs.willpower.skills}}
+            <div class="skill-row flexrow">
+              <span class="skill-name rollable" data-roll="1d10+{{value}}" data-label="{{label}}">{{label}}</span>
+              <input type="number" name="system.attributs.willpower.skills.{{@key}}.base" value="{{base}}" />
+              <span>+</span>
+              <input type="number" name="system.attributs.willpower.skills.{{@key}}.mod" value="{{mod}}" />
+              <span>= {{value}}</span>
+            </div>
+          {{/each}}
+        </div>
+      </div>
+
+      <!-- EMPATHY -->
+      <div class="attribute-block">
+        <label>EMPATHY ({{system.attributs.empathy.value}})</label>
+        <div class="skills-list">
+          {{#each system.attributs.empathy.skills}}
+            <div class="skill-row flexrow">
+              <span class="skill-name rollable" data-roll="1d10+{{value}}" data-label="{{label}}">{{label}}</span>
+              <input type="number" name="system.attributs.empathy.skills.{{@key}}.base" value="{{base}}" />
+              <span>+</span>
+              <input type="number" name="system.attributs.empathy.skills.{{@key}}.mod" value="{{mod}}" />
+              <span>= {{value}}</span>
+            </div>
+          {{/each}}
+        </div>
+      </div>
+    </div>
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+      <div class="armor-section">
+        <h3>ARMOR</h3>
+        <div class="armor-grid">
+          <input type="number" name="system.armor.head.value" value="{{system.armor.head.value}}" placeholder="Head" />
+          <input type="number" name="system.armor.torso.value" value="{{system.armor.torso.value}}" placeholder="Torso" />
+          <input type="number" name="system.armor.rightArm.value" value="{{system.armor.rightArm.value}}" placeholder="R.Arm" />
+          <input type="number" name="system.armor.leftArm.value" value="{{system.armor.leftArm.value}}" placeholder="L.Arm" />
+          <input type="number" name="system.armor.rightLeg.value" value="{{system.armor.rightLeg.value}}" placeholder="R.Leg" />
+          <input type="number" name="system.armor.leftLeg.value" value="{{system.armor.leftLeg.value}}" placeholder="L.Leg" />
+        </div>
+      </div>
+
+      <div class="cyberware-section">
+        <h3>CYBERWARE</h3>
+        <ol class="cyberware-list">
+          {{#each (filter items "type" "cyberware")}}
+            <li>{{name}}</li>
+          {{/each}}
+        </ol>
+      </div>
+
+      <div class="ranges-section">
+        <h3>RANGES</h3>
+        <table>
+          <tr><td>Handguns</td><td>{{system.ranges.handguns.close}}m</td><td>{{system.ranges.handguns.medium}}m</td><td>{{system.ranges.handguns.long}}m</td><td>{{system.ranges.handguns.extreme}}m</td></tr>
+          <tr><td>SMG/Rifles</td><td>{{system.ranges.smgRifles.close}}m</td><td>{{system.ranges.smgRifles.medium}}m</td><td>{{system.ranges.smgRifles.long}}m</td><td>{{system.ranges.smgRifles.extreme}}m</td></tr>
+          <tr><td>Shotgun</td><td>{{system.ranges.shotgun.close}}m</td><td>{{system.ranges.shotgun.medium}}m</td><td>{{system.ranges.shotgun.long}}m</td><td>—</td></tr>
+        </table>
+        <h4>TO HIT NUMBERS</h4>
+        <table>
+          <tr><td>Point blank (up to 1m)</td><td>10</td></tr>
+          <tr><td>Close (up to ½ range)</td><td>15</td></tr>
+          <tr><td>Medium (up to range)</td><td>20</td></tr>
+          <tr><td>Long (up to 2x range)</td><td>25</td></tr>
+          <tr><td>Extreme (up to 3x range)</td><td>30</td></tr>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <section class="sheet-footer flexrow">
+    <div class="footer-left">
+      <div class="stats-box">
+        <input type="number" value="{{system.speed.value}}" disabled placeholder="Speed" />
+        <input type="number" value="{{system.carry.value}}" disabled placeholder="Carry" />
+        <input type="number" name="system.luck.value" value="{{system.luck.value}}" placeholder="Luck" />
+      </div>
+      <textarea name="system.otherInfo.value" placeholder="Other Info">{{system.otherInfo.value}}</textarea>
+    </div>
+    <div class="footer-right">
+      <nav class="sheet-tabs" data-group="primary">
+        <a class="item" data-tab="inventory">INVENTORY</a>
+        <a class="item" data-tab="bio">BIO</a>
+        <a class="item" data-tab="cyberdeck">CYBERDECK</a>
+      </nav>
+      <section class="sheet-content">
+        <div class="tab inventory" data-group="primary" data-tab="inventory">
+          {{> "systems/cyber_hack_revised/templates/actor/parts/actor-items.hbs"}}
+        </div>
+        <div class="tab bio" data-group="primary" data-tab="bio">
+          <textarea name="system.biography">{{system.biography}}</textarea>
+        </div>
+        <div class="tab cyberdeck" data-group="primary" data-tab="cyberdeck">
+          <h2>CYBERDECK | HW: ___ | PING: MAX</h2>
+          <h3>PROGRAMS</h3>
+          <textarea style="height: 300px;" placeholder="List of programs..."></textarea>
+          <p class="ping-info">
+            For a single Software Engineering skill check, compare with the security value of every hackable device in an active range of MAXHW + 5m radius.<br>
+            If successful, that device is considered "connected"...
+          </p>
+        </div>
+      </section>
+    </div>
+  </section>
 </form>

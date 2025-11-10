@@ -1,134 +1,54 @@
-/**
- * Feuille de personnage pour Cyber Hack (revised)
- */
+// module/actor/actor-sheet.js
 export class CyberHackCharacterSheet extends ActorSheet {
-
     static get defaultOptions() {
         return foundry.utils.mergeObject(super.defaultOptions, {
-            classes: ["cyberhack", "sheet", "actor", "character"],
+            classes: ["cyberhack", "sheet", "actor"],
             template: "systems/cyber_hack_revised/templates/actor/actor-sheet.hbs",
-            width: 800,
-            height: 700,
-            tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-content", initial: "items" }],
-            dragDrop: [{ dragSelector: ".item-list .item", dropSelector: null }]
+            width: 1100,
+            height: 800,
+            tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-content", initial: "main" }]
         });
     }
 
     /** @override */
     getData() {
-        const context = super.getData();
-        const actorData = context.actor.system;
+        const context = super.getData(); // <-- CRUCIAL
+        const system = context.actor.system;
 
-        // Préparer les données enrichies
-        context.system = actorData;
-        context.flags = context.actor.flags;
+        // SÉCURITÉ : Vérifier que system existe
+        if (!system) return context;
 
-        // Localisation
-        context.config = CONFIG.CYBERHACK;
-
-        // Ajouter les labels des compétences
-        if (actorData.attributs) {
-            Object.values(actorData.attributs).forEach(attr => {
-                if (attr.skills) {
-                    Object.values(attr.skills).forEach(skill => {
-                        if (!skill.label || skill.label === "") {
-                            skill.label = this._formatSkillLabel(skill);
-                        }
-                    });
-                }
-            });
-        }
+        // Filtrer les items
+        context.cyberware = context.items.filter(i => i.type === "cyberware") || [];
+        context.weapons = context.items.filter(i => i.type === "weapon") || [];
 
         return context;
     }
 
-    /** @override */
     activateListeners(html) {
         super.activateListeners(html);
 
-        // Jets de compétence
-        html.find('.skill-roll').click(this._onSkillRoll.bind(this));
-        html.find('.rollable').click(this._onRollableClick.bind(this));
+        // Jets
+        html.find('.rollable').click(this._onRoll.bind(this));
 
-        // Initiative
-        html.find('.roll-initiative').click(this._onRollInitiative.bind(this));
-
-        // Mise à jour auto des totaux de compétence
-        html.find('.skill-base, .skill-mod').change(this._onSkillValueChange.bind(this));
-    }
-
-    // ==================================================================
-    // GESTION DES JETS
-    // ==================================================================
-
-    async _onSkillRoll(event) {
-        event.preventDefault();
-        const skillElem = event.currentTarget.closest('.skill-item');
-        const dataset = skillElem.querySelector('.rollable').dataset;
-        const label = dataset.label;
-        const formula = dataset.roll;
-
-        this._rollFormula(formula, label);
-    }
-
-    async _onRollableClick(event) {
-        event.preventDefault();
-        const dataset = event.currentTarget.dataset;
-        if (dataset.roll) {
-            this._rollFormula(dataset.roll, dataset.label);
-        }
-    }
-
-    async _onRollInitiative(event) {
-        event.preventDefault();
-        const ref = this.actor.system.attributs?.reflexes?.value || 0;
-        const formula = `1d10 + ${ref}`;
-        this._rollFormula(formula, "Initiative");
-    }
-
-    async _rollFormula(formula, label) {
-        const roll = new Roll(formula, this.actor.getRollData());
-        await roll.evaluate();
-
-        const flavor = `<strong>${game.i18n.localize("CYBERHACK.Roll")} : ${label}</strong>`;
-        roll.toMessage({
-            speaker: ChatMessage.getSpeaker({ actor: this.actor }),
-            flavor: flavor
+        // Mise à jour auto des compétences
+        html.find('input[name*="base"], input[name*="mod"]').change(() => {
+            setTimeout(() => {
+                this.actor.update({});
+                this.render();
+            }, 100);
         });
     }
 
-    // ==================================================================
-    // MISE À JOUR DES COMPÉTENCES
-    // ==================================================================
-
-    _onSkillValueChange(event) {
-        event.preventDefault();
-        const input = event.currentTarget;
-        const skillPath = input.name;
-        const value = parseInt(input.value) || 0;
-
-        // Mettre à jour l'acteur
-        const updateData = {};
-        updateData[skillPath] = value;
-
-        // Recalculer la valeur totale
-        setTimeout(() => {
-            this.actor.update(updateData).then(() => {
-                // Forcer le recalcul des derived data
-                this.actor.prepareData();
-                this.render();
-            });
-        }, 100);
-    }
-
-    // ==================================================================
-    // UTILITAIRES
-    // ==================================================================
-
-    _formatSkillLabel(skillKey) {
-        return skillKey
-            .replace(/([A-Z])/g, ' $1')
-            .replace(/^./, str => str.toUpperCase())
-            .trim();
+    async _onRoll(event) {
+        const el = event.currentTarget;
+        const formula = el.dataset.roll;
+        const label = el.dataset.label || "Skill Check";
+        const roll = new Roll(formula, this.actor.getRollData());
+        await roll.evaluate();
+        roll.toMessage({
+            speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+            flavor: `<strong>${label}</strong>`
+        });
     }
 }
