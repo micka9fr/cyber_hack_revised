@@ -11,7 +11,7 @@
     "name": "Meka"
   },
   "esmodules": ["module/cyber-hack.js"],
-  "styles": ["css/cyber_hack.css"],
+  "styles": ["css/cyber-hack.css"],
   "languages": [
     {
       "lang": "en",

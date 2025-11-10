@@ -1,5 +1,5 @@
 import { CyberHackActor } from "./actor/actor.js";
-import { CyberHackCharacterSheet } from "./actor/sheet/actor-sheet.js";
+import { CyberHackCharacterSheet } from "./actor/actor-sheet.js";
 
 Hooks.once('init', () => {
     console.log("Cyber Hack | Initialisation du système");
