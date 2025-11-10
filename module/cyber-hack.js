@@ -1,16 +1,17 @@
 import { CyberHackActor } from "./actor/actor.js";
-import { CyberHackActorSheet } from "./actor/actor-sheet.js";
 
+Hooks.once('init', () => {
+    console.log("Cyber Hack | Initialisation");
 
-Hooks.once('init', async function(){
-    game.cyberHack = {
-        CyberHackActor
-    }
+    // Charger les templates
+    loadTemplates([
+        "systems/cyber_hack_revised/templates/actor/character-sheet.hbs",
+        "systems/cyber_hack_revised/templates/actor/npc-sheet.hbs"
+    ]);
+
+    // Enregistrer la classe Actor
+    CONFIG.Actor.documentClass = CyberHackActor;
+
+    // Enregistrer les feuilles (à créer plus tard)
+    // Actors.registerSheet("cyberhack", CharacterSheet, { types: ["character"], makeDefault: true });
 });
-
-// Define custom Entity classes
-CONFIG.Actor.documentClass = CyberHackActor;
-//CONFIG.Item.documentClass = CyberHackItem;
-
-foundry.documents.collections.Actors.unregisterSheet("core", foundry.appv1.sheets.ActorSheet);
-foundry.documents.collections.Actors.registerSheet("mosh", CyberHackActorSheet, {types: ['character'], makeDefault: true});

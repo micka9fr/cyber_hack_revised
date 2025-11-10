@@ -1,103 +1,99 @@
 {
-  "actor": {
-    "type": ["character", "NPC"],
-    "template": {
+  "Actor": {
+    "types": ["character", "NPC"],
+    "templates": {
       "base": {
         "wounds": {
           "value": 10,
           "min": 0,
           "max": 10,
-          "label" : "Wound"
+          "label": "Wounds"
         },
         "btm": {
           "value": 0,
           "label": "BTM"
         },
         "armor": {
-          "head": {
-            "value": 0,
-            "label": "Head"
-          },
-          "torso": {
-            "value": 0,
-            "label": "Torso"
-          }
+          "head": { "value": 0, "label": "Head" },
+          "torso": { "value": 0, "label": "Torso" }
         }
       }
     },
     "character": {
-      "templates": [
-        "base"
-      ],
+      "templates": ["base"],
       "attributs": {
         "body": {
-          "value": 0,
-          "label": "body",
+          "value": 5,
+          "label": "Body",
           "skills": {
-            "endurance": {
-              "base": 0,
-              "mod": 0,
-              "value": 0,
-              "label": ""
-            },
-            "strenghtFeat": {},
-            "athletics": {},
-            "heavyWeapon": {}
+            "endurance": { "base": 0, "mod": 0, "value": 0, "label": "" },
+            "strengthFeat": { "base": 0, "mod": 0, "value": 0, "label": "" },
+            "athletics": { "base": 0, "mod": 0, "value": 0, "label": "" },
+            "heavyWeapon": { "base": 0, "mod": 0, "value": 0, "label": "" }
           }
         },
         "dexterity": {
-          "value": 0,
-          "label": "dexterity",
+          "value": 5,
+          "label": "Dexterity",
           "skills": {
-            "brawling": {},
-            "Archaic weapon": {},
-            "Stealth": {},
-            "sleightOfHand": {}
+            "brawling": { "base": 0, "mod": 0, "value": 0, "label": "" },
+            "archaicWeapon": { "base": 0, "mod": 0, "value": 0, "label": "" },
+            "stealth": { "base": 0, "mod": 0, "value": 0, "label": "" },
+            "sleightOfHand": { "base": 0, "mod": 0, "value": 0, "label": "" }
           }
         },
         "reflexes": {
-          "value": 0,
-          "label": "reflexes",
+          "value": 5,
+          "label": "Reflexes",
           "skills": {
-            "pilot": {},
-            "drive": {},
-            "Firearm": {},
-            "evasion": {}
+            "pilot": { "base": 0, "mod": 0, "value": 0, "label": "" },
+            "drive": { "base": 0, "mod": 0, "value": 0, "label": "" },
+            "firearm": { "base": 0, "mod": 0, "value": 0, "label": "" },
+            "evasion": { "base": 0, "mod": 0, "value": 0, "label": "" }
           }
         },
-        "Knownledge": {
-          "value": 0,
-          "label": "Knownledge",
+        "knowledge": {
+          "value": 5,
+          "label": "Knowledge",
           "skills": {
-            "medecine":{},
-            "technology": {},
-            "hacking": {},
-            "explosive": {}
+            "medicine": { "base": 0, "mod": 0, "value": 0, "label": "" },
+            "technology": { "base": 0, "mod": 0, "value": 0, "label": "" },
+            "hacking": { "base": 0, "mod": 0, "value": 0, "label": "" },
+            "explosive": { "base": 0, "mod": 0, "value": 0, "label": "" }
+          }
         },
-        "Willpower": {
-          "value": 0,
+        "willpower": {
+          "value": 5,
           "label": "Willpower",
           "skills": {
-            "awareness": {},
-            "concentration": {},
-            "resilience": {},
-            "streetwise": {}
+            "awareness": { "base": 0, "mod": 0, "value": 0, "label": "" },
+            "concentration": { "base": 0, "mod": 0, "value": 0, "label": "" },
+            "resilience": { "base": 0, "mod": 0, "value": 0, "label": "" },
+            "streetwise": { "base": 0, "mod": 0, "value": 0, "label": "" }
           }
-        }
         },
-        "empathie": {
-          "value": 0,
-          "label": "empathie",
+        "empathy": {
+          "value": 5,
+          "label": "Empathy",
           "skills": {
-            "persuasion": {},
-            "performance": {},
-            "pychology": {},
-            "seduction": {}
+            "persuasion": { "base": 0, "mod": 0, "value": 0, "label": "" },
+            "performance": { "base": 0, "mod": 0, "value": 0, "label": "" },
+            "psychology": { "base": 0, "mod": 0, "value": 0, "label": "" },
+            "seduction": { "base": 0, "mod": 0, "value": 0, "label": "" }
           }
         }
       }
+    },
+    "NPC": {
+      "templates": ["base"],
+      "attributs": {
+        "body": { "value": 5, "label": "Body", "skills": {} },
+        "dexterity": { "value": 5, "label": "Dexterity", "skills": {} },
+        "reflexes": { "value": 5, "label": "Reflexes", "skills": {} },
+        "knowledge": { "value": 5, "label": "Knowledge", "skills": {} },
+        "willpower": { "value": 5, "label": "Willpower", "skills": {} },
+        "empathy": { "value": 5, "label": "Empathy", "skills": {} }
+      }
     }
-  },
-  "talent": {},
-  "item": {}
+  }
 }
