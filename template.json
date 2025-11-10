@@ -14,12 +14,12 @@
           "label": "BTM"
         },
         "armor": {
-          "head": { "value": 0, "label": "Head" },
-          "torso": { "value": 0, "label": "Torso" },
-          "rightArm": { "value": 0, "label": "Right Arm" },
-          "leftArm": { "value": 0, "label": "Left Arm" },
-          "rightLeg": { "value": 0, "label": "Right Leg" },
-          "leftLeg": { "value": 0, "label": "Left Leg" }
+          "head": { "value": 0, "label": "Head", "range": "1" },
+          "torso": { "value": 0, "label": "Torso", "range": "2-4" },
+          "rightArm": { "value": 0, "label": "Right Arm", "range": "5" },
+          "leftArm": { "value": 0, "label": "Left Arm", "range": "6" },
+          "rightLeg": { "value": 0, "label": "Right Leg", "range": "7-8" },
+          "leftLeg": { "value": 0, "label": "Left Leg", "range": "9-10" }
         },
         "speed": { "value": 0, "label": "Speed" },
         "carry": { "value": 0, "label": "Carry" },

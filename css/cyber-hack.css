@@ -1,7 +1,10 @@
 .cyberhack-sheet {
-    font-family: 'Courier New', monospace;
-    background: #000;
-    color: #00ff00;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 13px;           /* Compact mais lisible */
+    line-height: 1.4;          /* Aéré mais dense */
+    letter-spacing: -0.1px;
+    background: #fff;
+    color: #000;
     border: 2px solid #000;
 }
 
@@ -14,18 +17,29 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr;
-    gap: 10px;
+    gap: 5px;
 }
 
 .attribute-block {
     border: 1px solid #fff;
-    padding: 5px;
-}
-
-.skill-row {
-    display: flex;
-    justify-content: space-between;
-    font-size: 12px;
+    padding: 0;
+    .attribute {
+        background: #000;
+        color: #fff;
+        text-transform: uppercase;
+        font-weight: 700;
+        vertical-align: center;
+    }
+    .skill-row {
+        background: #fff;
+        color: #000;
+        display: flex;
+        justify-content: space-between;
+        font-size: 12px;
+        input {
+            width: 30px;
+        }
+    }
 }
 
 .sidebar {
@@ -34,7 +48,24 @@
     border-left: 2px solid #fff;
 }
 
-.armor-grid, .ranges-section table {
+.armor-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 2fr);
+    gap: 5px;
+    span {
+        background: #000;
+        color: #fff;
+        text-transform: uppercase;
+        font-weight: 700;
+        text-align: center;
+    }
+    input {
+        width: 70px;
+        height: 70px;
+    }
+}
+
+.ranges-section table {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 5px;
