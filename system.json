@@ -1,0 +1,28 @@
+{
+  "id": "cyber_hack_revised",
+  "title": "Cyber Hack (revised)",
+  "description": "A simplified system for R. Talsorian Games' Cyberpunk game",
+  "version": "1.0",
+  "compatibility": {
+    "minimum": "13",
+    "verified": "13"
+  },
+  "authors": {
+    "name": "Meka"
+  },
+  "esmodules": ["module/cyber_hack.js"],
+  "styles": ["css/cyber_hack.css"],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "english",
+      "path": "lang/en.json",
+      "flag": {}
+    }
+  ],
+  "packs": [],
+  "background": "systems/mosh/images/icons/ui/system/mosh-background.webp",
+  "url": "https://github.com/micka9fr/cyber_hack_revised.git",
+  "manifest": "",
+  "download": ""
+}

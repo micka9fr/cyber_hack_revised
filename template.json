@@ -1,0 +1,103 @@
+{
+  "actor": {
+    "type": ["character", "NPC"],
+    "template": {
+      "base": {
+        "wounds": {
+          "value": 10,
+          "min": 0,
+          "max": 10,
+          "label" : "Wound"
+        },
+        "btm": {
+          "value": 0,
+          "label": "BTM"
+        },
+        "armor": {
+          "head": {
+            "value": 0,
+            "label": "Head"
+          },
+          "torso": {
+            "value": 0,
+            "label": "Torso"
+          }
+        }
+      }
+    },
+    "character": {
+      "templates": [
+        "base"
+      ],
+      "attributs": {
+        "body": {
+          "value": 0,
+          "label": "body",
+          "skills": {
+            "endurance": {
+              "base": 0,
+              "mod": 0,
+              "value": 0,
+              "label": ""
+            },
+            "strenghtFeat": {},
+            "athletics": {},
+            "heavyWeapon": {}
+          }
+        },
+        "dexterity": {
+          "value": 0,
+          "label": "dexterity",
+          "skills": {
+            "brawling": {},
+            "Archaic weapon": {},
+            "Stealth": {},
+            "sleightOfHand": {}
+          }
+        },
+        "reflexes": {
+          "value": 0,
+          "label": "reflexes",
+          "skills": {
+            "pilot": {},
+            "drive": {},
+            "Firearm": {},
+            "evasion": {}
+          }
+        },
+        "Knownledge": {
+          "value": 0,
+          "label": "Knownledge",
+          "skills": {
+            "medecine":{},
+            "technology": {},
+            "hacking": {},
+            "explosive": {}
+        },
+        "Willpower": {
+          "value": 0,
+          "label": "Willpower",
+          "skills": {
+            "awareness": {},
+            "concentration": {},
+            "resilience": {},
+            "streetwise": {}
+          }
+        }
+        },
+        "empathie": {
+          "value": 0,
+          "label": "empathie",
+          "skills": {
+            "persuasion": {},
+            "performance": {},
+            "pychology": {},
+            "seduction": {}
+          }
+        }
+      }
+    }
+  },
+  "talent": {},
+  "item": {}
+}
