@@ -23,6 +23,5 @@
   "packs": [],
   "background": "systems/mosh/images/icons/ui/system/mosh-background.webp",
   "url": "https://github.com/micka9fr/cyber_hack_revised.git",
-  "manifest": "",
-  "download": ""
+  "manifest": "https://raw.githubusercontent.com/micka9fr/cyber_hack_revised/refs/heads/main/system.json"
 }
