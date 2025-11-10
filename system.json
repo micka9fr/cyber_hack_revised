@@ -21,7 +21,7 @@
     }
   ],
   "packs": [],
-  "background": "systems/mosh/images/icons/ui/system/mosh-background.webp",
+  "background": "",
   "url": "https://github.com/micka9fr/cyber_hack_revised",
   "manifest": "https://raw.githubusercontent.com/micka9fr/cyber_hack_revised/refs/heads/main/system.json",
   "download": "https://github.com/micka9fr/cyber_hack_revised/archive/cyberHackRevised-v1.0.zip"
