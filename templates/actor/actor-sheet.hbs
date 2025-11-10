@@ -1,143 +1,186 @@
 <form class="cyberhack-sheet flexcol" autocomplete="off">
-  <!-- DEBUG -->
-  {{!-- <pre>{{json actor.system}}</pre> --}}
+	<!-- DEBUG -->
+	{{!-- <pre>{{json actor.system}}</pre> --}}
 
-  <!-- HEADER -->
-  <header class="sheet-header cyberpunk-header">
-    <div class="header-left">
-      <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100" width="100" />
-    </div>
-    <div class="header-middle">
-      <h1 class="charname">
-        <input name="name" type="text" value="{{actor.name}}" placeholder="NAME" />
-      </h1>
-      <div class="header-resources">
-        <div class="resource-box flexcol">
-          <label>WOUNDS</label>
-          <input type="number" name="actor.system.wounds.value" value="{{actor.system.wounds.value}}" min="0" max="{{actor.system.wounds.max}}" />
-          <span>/ {{actor.system.wounds.max}}</span>
-        </div>
-        <div class="resource-box flexcol">
-          <label>BTM</label>
-          <input type="number" value="{{actor.system.btm.value}}" disabled />
-        </div>
-      </div>
-    </div>
-    <div class="header-right">
-        <div class="armor-section">
-            <h3>ARMOR</h3>
-            <div class="armor-grid flexcol">
-                {{#each actor.system.armor}}
-                    <div class="flexcol">
-                        <span>{{@key}}</span>
-                        <input type="number" name="actor.system.armor.{{@key}}.value" value="{{this.value}}" placeholder="{{@key}}" />
-                        <span>{{this.range}}</span>
-                    </div>
-                {{/each}}
-            </div>
-        </div>
-    </div>
+	<!-- HEADER -->
+	<header class="sheet-header cyberpunk-header">
+		<div class="header-left">
+			<img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100"
+			     width="100"/>
+		</div>
+		<div class="header-middle">
+			<h1 class="charname">
+				<input name="name" type="text" value="{{actor.name}}" placeholder="NAME"/>
+			</h1>
+			<div class="header-resources">
+				<div class="resource-box flexcol">
+					<label>WOUNDS</label>
+					<input type="number" name="actor.system.wounds.value" value="{{actor.system.wounds.value}}" min="0"
+					       max="{{actor.system.wounds.max}}"/>
+					<span>/ {{actor.system.wounds.max}}</span>
+				</div>
+				<div class="resource-box flexcol">
+					<label>BTM</label>
+					<input type="number" value="{{actor.system.btm.value}}" disabled/>
+				</div>
+			</div>
+		</div>
+		<div class="header-right">
+			<div class="armor-section">
+				<h3>ARMOR</h3>
+				<div class="armor-grid flexcol">
+					{{#each actor.system.armor}}
+						<div class="flexcol">
+							<span>{{@key}}</span>
+							<input type="number" name="actor.system.armor.{{@key}}.value" value="{{this.value}}"
+							       placeholder="{{@key}}"/>
+							<span>{{this.range}}</span>
+						</div>
+					{{/each}}
+				</div>
+			</div>
+		</div>
 
-  </header>
+	</header>
 
-  <!-- CORPS -->
-  <section class="sheet-body flexrow">
-    <!-- GRILLE 3x2 -->
-    <div class="attributes-grid grid-2X3">
-      <!-- BODY -->
-      {{#each actor.system.attributs}}
-          <div class="attribute-block">
-              <div class="attribute flexrow">
-                  <span class="flexcol">{{@key}}</span>
-                  <input class="flexcol" type="number" name="actor.system.attributs.{{@key}}.value" value="{{this.value}}"/>
-              </div>
-              <div class="skills-list">
-                  {{#each this.skills}}
-                    <div class="skill-row flexrow">
-                        <div class="flexcol">
-                            <span class="skill-name rollable" data-roll="1d10+{{value}}" data-label="{{label}}">{{label}}</span>
-                        </div>
-                        <div class="flexcol">
-                            <div>
-                                <input  type="number" name="actor.system.attributs.body.skills.{{@key}}.base" value="{{base}}" />
-                                <span>+</span>
-                                <input type="number" name="actor.system.attributs.body.skills.{{@key}}.mod" value="{{mod}}" />
-                                <span>= {{value}}</span>
-                            </div>
-                        </div>
+	<!-- CORPS -->
+	<section class="sheet-body flexrow">
+		<!-- GRILLE 3x2 -->
+		<div class="attributes-grid grid-2X3">
+			<!-- BODY -->
+			{{#each actor.system.attributs}}
+				<div class="attribute-block">
+					<div class="attribute flexrow">
+						<span class="flexcol">{{@key}}</span>
+						<input class="flexcol" type="number" name="actor.system.attributs.{{@key}}.value"
+						       value="{{this.value}}"/>
+					</div>
+					<div class="skills-list">
+						{{#each this.skills}}
+							<div class="skill-row flexrow">
+								<div class="flexcol">
+									<span class="skill-name rollable" data-roll="1d10+{{value}}"
+									      data-label="{{label}}">{{label}}</span>
+								</div>
+								<div class="flexcol">
+									<div>
+										<input type="number" name="actor.system.attributs.body.skills.{{@key}}.base"
+										       value="{{base}}"/>
+										<span>+</span>
+										<input type="number" name="actor.system.attributs.body.skills.{{@key}}.mod"
+										       value="{{mod}}"/>
+										<span>= {{value}}</span>
+									</div>
+								</div>
 
 
-                   </div>
-                  {{/each}}
-              </div>
-          </div>
-      {{/each}}
-    </div>
+							</div>
+						{{/each}}
+					</div>
+				</div>
+			{{/each}}
+		</div>
 
-    <!-- SIDEBAR -->
-    <div class="sidebar">
+		<!-- SIDEBAR -->
+		<div class="sidebar">
 
-      <div class="cyberware-section">
-        <h3>CYBERWARE</h3>
-        <ol class="cyberware-list">
-          {{!-- {{#each (filter items "type" "cyberware")}}
+			<div class="cyberware-section">
+				<h3>CYBERWARE</h3>
+				<ol class="cyberware-list">
+					{{!-- {{#each (filter items "type" "cyberware")}}
             <li>{{name}}</li>
           {{/each}} --}}
-        </ol>
-      </div>
+				</ol>
+			</div>
 
-      <div class="ranges-section">
-        <h3>RANGES</h3>
-        <table>
-          <tr><td>Handguns</td><td>{{actor.system.ranges.handguns.close}}m</td><td>{{actor.system.ranges.handguns.medium}}m</td><td>{{actor.system.ranges.handguns.long}}m</td><td>{{actor.system.ranges.handguns.extreme}}m</td></tr>
-          <tr><td>SMG/Rifles</td><td>{{actor.system.ranges.smgRifles.close}}m</td><td>{{actor.system.ranges.smgRifles.medium}}m</td><td>{{actor.system.ranges.smgRifles.long}}m</td><td>{{actor.system.ranges.smgRifles.extreme}}m</td></tr>
-          <tr><td>Shotgun</td><td>{{actor.system.ranges.shotgun.close}}m</td><td>{{actor.system.ranges.shotgun.medium}}m</td><td>{{actor.system.ranges.shotgun.long}}m</td><td>—</td></tr>
-        </table>
-        <h4>TO HIT NUMBERS</h4>
-        <table>
-          <tr><td>Point blank (up to 1m)</td><td>10</td></tr>
-          <tr><td>Close (up to ½ range)</td><td>15</td></tr>
-          <tr><td>Medium (up to range)</td><td>20</td></tr>
-          <tr><td>Long (up to 2x range)</td><td>25</td></tr>
-          <tr><td>Extreme (up to 3x range)</td><td>30</td></tr>
-        </table>
-      </div>
-    </div>
-  </section>
+			<div class="ranges-section">
+				<h3>RANGES</h3>
+				<table>
+					<tr>
+						<td>Handguns</td>
+						<td>{{actor.system.ranges.handguns.close}}m</td>
+						<td>{{actor.system.ranges.handguns.medium}}m</td>
+						<td>{{actor.system.ranges.handguns.long}}m</td>
+						<td>{{actor.system.ranges.handguns.extreme}}m</td>
+					</tr>
+					<tr>
+						<td>SMG/Rifles</td>
+						<td>{{actor.system.ranges.smgRifles.close}}m</td>
+						<td>{{actor.system.ranges.smgRifles.medium}}m</td>
+						<td>{{actor.system.ranges.smgRifles.long}}m</td>
+						<td>{{actor.system.ranges.smgRifles.extreme}}m</td>
+					</tr>
+					<tr>
+						<td>Shotgun</td>
+						<td>{{actor.system.ranges.shotgun.close}}m</td>
+						<td>{{actor.system.ranges.shotgun.medium}}m</td>
+						<td>{{actor.system.ranges.shotgun.long}}m</td>
+						<td>—</td>
+					</tr>
+				</table>
+				<h4>TO HIT NUMBERS</h4>
+				<table>
+					<tr>
+						<td>Point blank (up to 1m)</td>
+						<td>10</td>
+					</tr>
+					<tr>
+						<td>Close (up to ½ range)</td>
+						<td>15</td>
+					</tr>
+					<tr>
+						<td>Medium (up to range)</td>
+						<td>20</td>
+					</tr>
+					<tr>
+						<td>Long (up to 2x range)</td>
+						<td>25</td>
+					</tr>
+					<tr>
+						<td>Extreme (up to 3x range)</td>
+						<td>30</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</section>
 
-  <!-- FOOTER -->
-  <section class="sheet-footer flexrow">
-    <div class="footer-left">
-      <div class="stats-box">
-        <input type="number" value="{{actor.system.speed.value}}" disabled placeholder="Speed" />
-        <input type="number" value="{{actor.system.carry.value}}" disabled placeholder="Carry" />
-        <input type="number" name="actor.system.luck.value" value="{{actor.system.luck.value}}" placeholder="Luck" />
-      </div>
-      <textarea name="actor.system.otherInfo.value" placeholder="Other Info">{{actor.system.otherInfo.value}}</textarea>
-    </div>
-    <div class="footer-right">
-      <nav class="sheet-tabs" data-group="primary">
-        <a class="item" data-tab="inventory">INVENTORY</a>
-        <a class="item" data-tab="bio">BIO</a>
-        <a class="item" data-tab="cyberdeck">CYBERDECK</a>
-      </nav>
-      <section class="sheet-content">
-        <div class="tab inventory" data-group="primary" data-tab="inventory">
-          {{> "systems/cyber_hack_revised/templates/actor/parts/actor-items.hbs"}}
-        </div>
-        <div class="tab bio" data-group="primary" data-tab="bio">
-          <textarea name="actor.system.biography">{{actor.system.biography}}</textarea>
-        </div>
-        <div class="tab cyberdeck" data-group="primary" data-tab="cyberdeck">
-          <h2>CYBERDECK | HW: ___ | PING: MAX</h2>
-          <h3>PROGRAMS</h3>
-          <textarea style="height: 300px;" placeholder="List of programs..."></textarea>
-          <p class="ping-info">
-            For a single Software Engineering skill check, compare with the security value of every hackable device in an active range of MAXHW + 5m radius.<br>
-            If successful, that device is considered "connected"...
-          </p>
-        </div>
-      </section>
-    </div>
-  </section>
+	<!-- FOOTER -->
+	<section class="sheet-footer flexrow">
+		<div class="footer-left">
+			<div class="stats-box">
+				<input type="number" value="{{actor.system.speed.value}}" disabled placeholder="Speed"/>
+				<input type="number" value="{{actor.system.carry.value}}" disabled placeholder="Carry"/>
+				<input type="number" name="actor.system.luck.value" value="{{actor.system.luck.value}}"
+				       placeholder="Luck"/>
+			</div>
+			<textarea name="actor.system.otherInfo.value"
+			          placeholder="Other Info">{{actor.system.otherInfo.value}}</textarea>
+		</div>
+		<div class="footer-right">
+			<nav class="sheet-tabs" data-group="primary">
+				<a class="item" data-tab="inventory">INVENTORY</a>
+				<a class="item" data-tab="bio">BIO</a>
+				<a class="item" data-tab="cyberdeck">CYBERDECK</a>
+			</nav>
+			<section class="sheet-content">
+				<div class="tab inventory" data-group="primary" data-tab="inventory">
+					{{> "systems/cyber_hack_revised/templates/actor/parts/actor-items.hbs"}}
+				</div>
+				<div class="tab bio" data-group="primary" data-tab="bio">
+					<textarea name="actor.system.biography">{{actor.system.biography}}</textarea>
+				</div>
+				<div class="tab cyberdeck" data-group="primary" data-tab="cyberdeck">
+					<h2>CYBERDECK | HW: ___ | PING: MAX</h2>
+					<h3>PROGRAMS</h3>
+					<textarea style="height: 300px;" placeholder="List of programs..."></textarea>
+					<p class="ping-info">
+						For a single Software Engineering skill check, compare with the security value of every hackable
+						device in an active range of MAXHW + 5m radius.<br>
+						If successful, that device is considered "connected"...
+					</p>
+				</div>
+			</section>
+		</div>
+	</section>
 </form>
