@@ -33,3 +33,34 @@ Hooks.once('init', () => {
         "systems/cyber_hack_revised/templates/actor/parts/actor-items.hbs"
     ]);
 });
+
+Hooks.once('ready', async () => {
+    const partials = [
+        "systems/cyber_hack_revised/templates/actor/parts/sidebar-cyberwares.hbs",
+        "systems/cyber_hack_revised/templates/actor/parts/sidebar-talents.hbs",
+        "systems/cyber_hack_revised/templates/actor/parts/sidebar-weapons.hbs",
+        "systems/cyber_hack_revised/templates/actor/parts/sidebar-gears.hbs",
+        "systems/cyber_hack_revised/templates/actor/parts/sidebar-net.hbs",
+        "systems/cyber_hack_revised/templates/actor/parts/sidebar-life.hbs"
+    ];
+
+    try {
+        await loadTemplates(partials);
+        console.log("Cyber Hack | Partials chargés !");
+    } catch (e) {
+        console.error("Cyber Hack | Erreur chargement partials :", e);
+    }
+});
+
+Handlebars.registerHelper({
+    set: function (varName, varValue, options) {
+        options.data.root[varName] = varValue;
+    },
+    get: function (varName, options) {
+        return options.data.root[varName];
+    },
+    concat: function (...args) {
+        args.pop(); // retire `options`
+        return args.join('');
+    }
+});

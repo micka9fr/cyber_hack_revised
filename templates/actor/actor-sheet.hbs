@@ -89,6 +89,12 @@
 
 			<!-- CONTENU DES ONGLETS -->
 			<section class="sheet-content-sidebar">
+				{{#each actor.system.menu}}
+					<div class="tab {{this}} active" data-group="sidebar" data-tab="{{this}}">
+						{{set "partialPath" (concat "systems/cyber_hack_revised/templates/actor/parts/sidebar-" this ".hbs")}}
+						{{> (get "partialPath")}}
+					</div>
+				{{/each}}
 				<!-- Onglet CYBERWARE (actif par défaut) -->
 				<div class="tab cyberware active" data-group="sidebar" data-tab="cyberwares">
 					<h3>CYBERWARE</h3>
