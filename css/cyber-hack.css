@@ -51,6 +51,16 @@
     width: 300px;
     padding-left: 10px;
     border-left: 2px solid #fff;
+    .sheet-tabs-sidebar {
+        background: #000;
+        .item {
+            color: #fff;
+            text-transform: uppercase;
+            font-weight: 700;
+            text-align: center;
+            margin: 3px;
+        }
+    }
 }
 
 .armor-grid {
