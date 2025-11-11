@@ -95,49 +95,6 @@
 						{{> (get "partialPath")}}
 					</div>
 				{{/each}}
-				<!-- Onglet CYBERWARE (actif par défaut) -->
-				<div class="tab cyberware active" data-group="sidebar" data-tab="cyberwares">
-					<h3>CYBERWARE</h3>
-					<ol class="cyberware-list">
-						{{!-- {{#each (filter items "type" "cyberware")}}
-         <li>{{name}}</li>
-      {{/each}} --}}
-					</ol>
-				</div>
-
-				<!-- Onglet TALENT -->
-				<div class="tab talent" data-group="sidebar" data-tab="talents">
-					<h3>TALENT</h3>
-					<p>Ajoute ici tes talents...</p>
-					{{!-- Contenu dynamique --}}
-					{{> "systems/cyber_hack_revised/templates/actor/parts/sidebar-talents.hbs"}}
-				</div>
-
-				<!-- Onglet WEAPON -->
-				<div class="tab weapon" data-group="sidebar" data-tab="weapons">
-					<h3>WEAPON</h3>
-					<p>Liste des armes...</p>
-					{{!-- {{#each (filter items "type" "weapon")}} --}}
-				</div>
-
-				<!-- Onglet GEARS -->
-				<div class="tab gears" data-group="sidebar" data-tab="gears">
-					<h3>GEARS</h3>
-					<p>Équipements...</p>
-					{{!-- {{#each (filter items "type" "gear")}} --}}
-				</div>
-
-				<!-- Onglet NET -->
-				<div class="tab net" data-group="sidebar" data-tab="net">
-					<h3>NET</h3>
-					<p>Netrunning...</p>
-				</div>
-
-				<!-- Onglet LIFE -->
-				<div class="tab life" data-group="sidebar" data-tab="life">
-					<h3>LIFE</h3>
-					<p>Background...</p>
-				</div>
 			</section>
 
 			<!-- RANGES (fixe, en bas) -->
