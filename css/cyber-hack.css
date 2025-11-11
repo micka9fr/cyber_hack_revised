@@ -11,33 +11,38 @@
 .cyberpunk-header {
     border-bottom: 3px solid #fff;
     padding: 10px;
+    .header-left {
+        min-width: 400px;
+        max-width: 400px;
+    }
 }
 
 .attributes-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
     gap: 5px;
-}
-
-.attribute-block {
-    border: 1px solid #fff;
-    padding: 0;
-    .attribute {
-        background: #000;
-        color: #fff;
-        text-transform: uppercase;
-        font-weight: 700;
-        vertical-align: center;
-    }
-    .skill-row {
-        background: #fff;
-        color: #000;
-        display: flex;
-        justify-content: space-between;
-        font-size: 12px;
-        input {
-            width: 30px;
+    min-width: 400px;
+    max-width: 400px;
+    .attribute-block {
+        border: 1px solid #fff;
+        padding: 0;
+        .attribute {
+            background: #000;
+            color: #fff;
+            text-transform: uppercase;
+            font-weight: 700;
+            vertical-align: center;
+        }
+        .skill-row {
+            background: #fff;
+            color: #000;
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            input {
+                width: 30px;
+            }
         }
     }
 }
