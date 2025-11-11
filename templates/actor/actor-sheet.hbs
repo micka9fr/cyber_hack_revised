@@ -87,15 +87,20 @@
 				{{/each}}
 			</nav>
 			<!-- CONTENU DES ONGLETS -->
-			<section class="sheet-content-sidebar">
+			<div class="sheet-content-sidebar">
 				{{#each actor.system.menu}}
 					<div class="tab {{this}} active" data-group="sidebar" data-tab="{{this}}">
 						{{set "partialPath" (concat "systems/cyber_hack_revised/templates/actor/parts/sidebar-" this ".hbs")}}
 						{{> (get "partialPath")}}
 					</div>
 				{{/each}}
-			</section>
+			</div>
+		</div>
+	</section>
 
+	<!-- FOOTER -->
+	<section class="sheet-footer flexrow">
+		<div class="footer-left">
 			<!-- RANGES (fixe, en bas) -->
 			<div class="ranges-section">
 				<h3>RANGES</h3>
@@ -146,12 +151,6 @@
 					</tr>
 				</table>
 			</div>
-		</div>
-	</section>
-
-	<!-- FOOTER -->
-	<section class="sheet-footer flexrow">
-		<div class="footer-left">
 			<div class="stats-box">
 				<input type="number" value="{{actor.system.speed.value}}" disabled placeholder="Speed"/>
 				<input type="number" value="{{actor.system.carry.value}}" disabled placeholder="Carry"/>
