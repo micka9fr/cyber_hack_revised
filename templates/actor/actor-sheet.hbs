@@ -4,26 +4,41 @@
 
 	<!-- HEADER -->
 	<header class="sheet-header cyberpunk-header">
-		<div class="header-left">
+		<div>
 			<img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100"
 			     width="100"/>
-			<div>
-				<h1 class="charname">
-					<input name="name" type="text" value="{{actor.name}}" placeholder="NAME"/>
-				</h1>
-				<div class="header-resources">
-					<div class="resource-box flexcol">
-						<label>WOUNDS</label>
-						<input type="number" name="actor.system.wounds.value" value="{{actor.system.wounds.value}}" min="0"
-						       max="{{actor.system.wounds.max}}"/>
-						<span>/ {{actor.system.wounds.max}}</span>
-					</div>
-					<div class="resource-box flexcol">
-						<label>BTM</label>
-						<input type="number" value="{{actor.system.btm.value}}" disabled/>
+		</div>
+		<div class="header-left">
+
+
+			<h1 class="charname">
+				<input name="name" type="text" value="{{actor.name}}" placeholder="NAME"/>
+			</h1>
+
+			<div class="header-resources">
+				<div class="resource-box flexcol">
+					<label>WOUNDS</label>
+					{{#each actor.system.wounds.max}}
+						<input type="checkbox"  />
+					{{/each}}
+					<input type="number" name="actor.system.wounds.value" value="{{actor.system.wounds.value}}" min="0"
+					       max="{{actor.system.wounds.max}}"/>
+					<span>/ {{actor.system.wounds.max}}</span>
+				</div>
+				<div class="resource-box flexcol">
+					<label>BTM</label>
+					<input type="number" value="{{actor.system.btm.value}}" disabled/>
+				</div>
+				<div class="resource-box flexcol">
+					<label>LUCK</label>
+					<div>
+						<input type="checkbox" />
+						<input type="checkbox" />
+						<input type="checkbox" />
 					</div>
 				</div>
 			</div>
+
 		</div>
 		<div class="header-right">
 			<div class="armor-section">
@@ -154,8 +169,7 @@
 			<div class="stats-box">
 				<input type="number" value="{{actor.system.speed.value}}" disabled placeholder="Speed"/>
 				<input type="number" value="{{actor.system.carry.value}}" disabled placeholder="Carry"/>
-				<input type="number" name="actor.system.luck.value" value="{{actor.system.luck.value}}"
-				       placeholder="Luck"/>
+
 			</div>
 			<textarea name="actor.system.otherInfo.value"
 			          placeholder="Other Info">{{actor.system.otherInfo.value}}</textarea>
