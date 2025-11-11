@@ -96,7 +96,8 @@
             "seduction": { "base": 0, "mod": 0, "value": 0, "label": "Seduction" }
           }
         }
-      }
+      },
+      "menu": [ "cyberwares", "talents", "weapons", "gears","net","life"]
     },
     "NPC": {
       "templates": ["base"],

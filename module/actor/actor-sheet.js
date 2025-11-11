@@ -14,6 +14,7 @@ export class CyberHackCharacterSheet extends ActorSheet {
     getData() {
         const context = super.getData(); // <-- CRUCIAL
         const system = context.actor.system;
+        console.log(system.attributs);
 
         // SÉCURITÉ : Vérifier que system existe
         if (!system) return context;
@@ -21,7 +22,7 @@ export class CyberHackCharacterSheet extends ActorSheet {
         // Filtrer les items
         context.cyberware = context.items.filter(i => i.type === "cyberware") || [];
         context.weapons = context.items.filter(i => i.type === "weapon") || [];
-
+        console.log(context);
         return context;
     }
 
@@ -38,6 +39,34 @@ export class CyberHackCharacterSheet extends ActorSheet {
                 this.render();
             }, 100);
         });
+
+        const sidebarTabs = html.find('.sheet-tabs-sidebar');
+        if (sidebarTabs.length) {
+            sidebarTabs.on('click', 'a.item', (event) => {
+                event.preventDefault();
+                const tab = event.currentTarget;
+                const group = tab.closest('[data-group]').dataset.group;
+                const targetTab = tab.dataset.tab;
+
+                console.log(html.find(`[data-group="${group}"] .tab`));
+                // Retire .active de tous les onglets du groupe
+                html.find(`[data-group="${group}"] .item`).removeClass('active');
+                html.find(`.sheet-content-sidebar .tab`).removeClass('active');
+
+                // Ajoute .active au bon onglet et contenu
+                tab.classList.add('active');
+                html.find(`[data-group="${group}"][data-tab="${targetTab}"]`).addClass('active');
+            });
+        }
+
+        // === 4. (Optionnel) Onglet actif par défaut au rendu ===
+        // Si aucun onglet n'est actif, active le premier
+        const activeTab = html.find('.sheet-tabs-sidebar .item.active');
+        if (!activeTab.length) {
+            html.find('.sheet-tabs-sidebar .item').first().addClass('active');
+            const firstTab = html.find('.sheet-tabs-sidebar .item').first().data('tab');
+            html.find(`.sheet-content-sidebar .tab[data-tab="${firstTab}"]`).addClass('active');
+        }
     }
 
     async _onRoll(event) {

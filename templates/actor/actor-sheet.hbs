@@ -7,21 +7,21 @@
 		<div class="header-left">
 			<img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100"
 			     width="100"/>
-		</div>
-		<div class="header-middle">
-			<h1 class="charname">
-				<input name="name" type="text" value="{{actor.name}}" placeholder="NAME"/>
-			</h1>
-			<div class="header-resources">
-				<div class="resource-box flexcol">
-					<label>WOUNDS</label>
-					<input type="number" name="actor.system.wounds.value" value="{{actor.system.wounds.value}}" min="0"
-					       max="{{actor.system.wounds.max}}"/>
-					<span>/ {{actor.system.wounds.max}}</span>
-				</div>
-				<div class="resource-box flexcol">
-					<label>BTM</label>
-					<input type="number" value="{{actor.system.btm.value}}" disabled/>
+			<div>
+				<h1 class="charname">
+					<input name="name" type="text" value="{{actor.name}}" placeholder="NAME"/>
+				</h1>
+				<div class="header-resources">
+					<div class="resource-box flexcol">
+						<label>WOUNDS</label>
+						<input type="number" name="actor.system.wounds.value" value="{{actor.system.wounds.value}}" min="0"
+						       max="{{actor.system.wounds.max}}"/>
+						<span>/ {{actor.system.wounds.max}}</span>
+					</div>
+					<div class="resource-box flexcol">
+						<label>BTM</label>
+						<input type="number" value="{{actor.system.btm.value}}" disabled/>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -66,14 +66,11 @@
 									<div>
 										<input type="number" name="actor.system.attributs.body.skills.{{@key}}.base"
 										       value="{{base}}"/>
-										<span>+</span>
 										<input type="number" name="actor.system.attributs.body.skills.{{@key}}.mod"
 										       value="{{mod}}"/>
-										<span>= {{value}}</span>
+										<span>[ {{value}} ]</span>
 									</div>
 								</div>
-
-
 							</div>
 						{{/each}}
 					</div>
@@ -83,16 +80,61 @@
 
 		<!-- SIDEBAR -->
 		<div class="sidebar">
+			<!-- NAVIGATION ONGLETS -->
+			<nav class="sheet-tabs-sidebar" data-group="sidebar">
+				{{#each actor.system.menu}}
+					<a class="item active" data-tab="{{this}}">{{this}}</a>
+				{{/each}}
+			</nav>
 
-			<div class="cyberware-section">
-				<h3>CYBERWARE</h3>
-				<ol class="cyberware-list">
-					{{!-- {{#each (filter items "type" "cyberware")}}
-            <li>{{name}}</li>
-          {{/each}} --}}
-				</ol>
-			</div>
+			<!-- CONTENU DES ONGLETS -->
+			<section class="sheet-content-sidebar">
+				<!-- Onglet CYBERWARE (actif par défaut) -->
+				<div class="tab cyberware active" data-group="sidebar" data-tab="cyberwares">
+					<h3>CYBERWARE</h3>
+					<ol class="cyberware-list">
+						{{!-- {{#each (filter items "type" "cyberware")}}
+         <li>{{name}}</li>
+      {{/each}} --}}
+					</ol>
+				</div>
 
+				<!-- Onglet TALENT -->
+				<div class="tab talent" data-group="sidebar" data-tab="talents">
+					<h3>TALENT</h3>
+					<p>Ajoute ici tes talents...</p>
+					{{!-- Contenu dynamique --}}
+					{{> "systems/cyber_hack_revised/templates/actor/parts/sidebar-talents.hbs"}}
+				</div>
+
+				<!-- Onglet WEAPON -->
+				<div class="tab weapon" data-group="sidebar" data-tab="weapons">
+					<h3>WEAPON</h3>
+					<p>Liste des armes...</p>
+					{{!-- {{#each (filter items "type" "weapon")}} --}}
+				</div>
+
+				<!-- Onglet GEARS -->
+				<div class="tab gears" data-group="sidebar" data-tab="gears">
+					<h3>GEARS</h3>
+					<p>Équipements...</p>
+					{{!-- {{#each (filter items "type" "gear")}} --}}
+				</div>
+
+				<!-- Onglet NET -->
+				<div class="tab net" data-group="sidebar" data-tab="net">
+					<h3>NET</h3>
+					<p>Netrunning...</p>
+				</div>
+
+				<!-- Onglet LIFE -->
+				<div class="tab life" data-group="sidebar" data-tab="life">
+					<h3>LIFE</h3>
+					<p>Background...</p>
+				</div>
+			</section>
+
+			<!-- RANGES (fixe, en bas) -->
 			<div class="ranges-section">
 				<h3>RANGES</h3>
 				<table>
