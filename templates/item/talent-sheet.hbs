@@ -2,29 +2,66 @@
 	<header class="sheet-header">
 		<img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
 		<div class="header-fields">
-			<h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Nom du Talent" /></h1>
+			<h1 class="charname">{{item.name}}</h1>
 		</div>
 	</header>
 
 	<div class="sheet-tabs tabs">
 		<a class="item" data-tab="description">Description</a>
-		<a class="item" data-tab="modifiers">Modificateurs</a>
+		<a class="item" data-tab="modifiers">Édition</a>
 	</div>
 
 	<div class="sheet-body">
-		<!-- === DESCRIPTION === -->
+
+		<!-- === ONGLET 1 : DESCRIPTION (LECTURE SEULE) === -->
 		<div class="tab" data-tab="description">
-			{{editor
-					content=system.description
-					target="system.description"
-					button=true
-					owner=owner
-					editable=editable
-			}}
+			<div class="form-group">
+				<label>Description</label>
+				<div class="readonly-description">
+					{{#if system.description}}
+						{{{system.description}}}
+					{{else}}
+						<em>Aucune description.</em>
+					{{/if}}
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label>Coût</label>
+				<div class="readonly-field">{{system.cost}}</div>
+			</div>
+
+			<div class="form-group">
+				<label>Valeur Talent</label>
+				<div class="readonly-field">{{system.talentValue}}</div>
+			</div>
+
+			<div class="form-group">
+				<label>Modificateurs</label>
+				<div class="modifiers-list readonly">
+					{{#each system.modifiers}}
+						<div class="modifier-item flexrow">
+							<span class="modifier-key">{{this.key}}</span>
+							<span class="modifier-value">{{#if (gt this.value 0)}}+{{/if}}{{this.value}}</span>
+						</div>
+					{{else}}
+						<em>Aucun modificateur.</em>
+					{{/each}}
+				</div>
+			</div>
 		</div>
 
-		<!-- === MODIFICATEURS === -->
+		<!-- === ONGLET 2 : MODIFICATEURS (ÉDITABLE) === -->
 		<div class="tab" data-tab="modifiers">
+			<div class="form-group">
+				<label>Name</label>
+				<input name="name" type="text" value="{{item.name}}" placeholder="Nom du Talent" />
+			</div>
+			<div class="form-group">
+				<label>Description</label>
+				<textarea name="system.description" rows="6" style="width: 100%;">{{system.description}}</textarea>
+			</div>
+
 			<div class="form-group">
 				<label>Coût</label>
 				<input type="number" name="system.cost" value="{{system.cost}}" data-dtype="Number" />
