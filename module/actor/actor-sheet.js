@@ -106,28 +106,57 @@ export class CyberHackCharacterSheet extends ActorSheet {
 
         try {
             const data = JSON.parse(event.dataTransfer.getData('text/plain'));
-            if (data.type !== "Item") return;
+            console.log("Drop data:", data);
 
-            // Récupère les données brutes
-            let itemData = foundry.utils.deepClone(data);
+            let itemData;
 
-            // FORCER LES CHAMPS OBLIGATOIRES
-            itemData = {
-                name: itemData.name || "Talent Inconnu",
-                type: "talent",  // OBLIGATOIRE
-                system: itemData.system || {},
-                img: itemData.img || "icons/svg/mystery-man.svg"
-            };
+            // === 1. ITEM DU COMPENDIUM (priorité) ===
+            if (data.pack && data.id) {
+                const pack = game.packs.get(data.pack);
+                if (!pack) throw new Error("Compendium introuvable");
 
-            // Nettoie les _id si présent (évite les conflits)
+                const compendiumItem = await pack.getDocument(data.id);
+                if (compendiumItem.type !== "talent") {
+                    ui.notifications.warn("Seuls les talents peuvent être ajoutés ici.");
+                    return;
+                }
+
+                itemData = {
+                    name: compendiumItem.name,
+                    type: "talent",
+                    img: compendiumItem.img || "icons/svg/mystery-man.svg",
+                    system: foundry.utils.deepClone(compendiumItem.system)
+                };
+            }
+            // === 2. ITEM DU MONDE (déjà existant) ===
+            else if (data.type === "Item" && data.uuid) {
+                const item = await fromUuid(data.uuid);
+                if (!item || item.type !== "talent") {
+                    ui.notifications.warn("Seuls les talents peuvent être ajoutés ici.");
+                    return;
+                }
+
+                itemData = {
+                    name: item.name,
+                    type: "talent",
+                    img: item.img || "icons/svg/mystery-man.svg",
+                    system: foundry.utils.deepClone(item.system)
+                };
+            }
+            else {
+                throw new Error("Données de drop invalides");
+            }
+
+            // Nettoie l'ID
             delete itemData._id;
 
-            // Crée l'item
+            // Ajoute à l'acteur
             await this.actor.createEmbeddedDocuments("Item", [itemData]);
-            this.render();
+            console.log("Talent ajouté :", itemData.name);
+            ui.notifications.info(`${itemData.name} ajouté !`);
 
         } catch (err) {
-            console.error("Cyber Hack | Erreur Drop Talent :", err);
+            console.error("Erreur drop talent :", err);
             ui.notifications.error("Impossible d'ajouter le talent.");
         }
     }

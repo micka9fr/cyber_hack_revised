@@ -4,13 +4,14 @@
 
 	<ol class="talents-list">
 		{{#each actor.items}}
-			{{#if (eq @item.type "talent")}}
-				<li class="talent-item flexrow" data-item-id="{{_id}}">
-					<span class="talent-name">{{name}}
-				          {{#if system.talentValue}}[{{system.talentValue}}]{{/if}}
-			        </span>
+			{{#if (eq this.type "talent")}}
+				<li class="talent-item flexrow" data-item-id="{{this._id}}">
+                    <span class="talent-name">
+                        {{this.name}}
+	                    {{#if this.system.talentValue}} [{{this.system.talentValue}}]{{/if}}
+                    </span>
 					<div class="talent-controls">
-						<i class="fas fa-edit editable" title="Éditable"></i>
+						<i class="fas fa-edit editable" title="Éditer"></i>
 						<i class="fas fa-times delete-talent" title="Supprimer"></i>
 					</div>
 				</li>

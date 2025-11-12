@@ -30,7 +30,8 @@
       "name": "talents",
       "label": "Talents",
       "path": "packs/talents.db",
-      "type": "Item"
+      "type": "Item",
+      "system": "cyber_hack_revised"
     }
   ],
   "background": "",
