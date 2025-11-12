@@ -12,16 +12,27 @@ export class CyberHackCharacterSheet extends ActorSheet {
 
     /** @override */
     getData() {
-        const context = super.getData(); // <-- CRUCIAL
-        const system = context.actor.system;
-        console.log(system.attributs);
+        const context = super.getData();
 
-        // SÉCURITÉ : Vérifier que system existe
-        if (!system) return context;
+        // SÉCURITÉ
+        if (!context.actor?.system) return context;
 
-        // Filtrer les items
+        // FORCE LES EMBEDDED ITEMS (OBLIGATOIRE)
+        const actorData = this.actor.toObject(false);
+        context.items = actorData.items || [];
+
+        // FILTRER
+        context.talents   = context.items.filter(i => i.type === "talent")   || [];
         context.cyberware = context.items.filter(i => i.type === "cyberware") || [];
-        context.weapons = context.items.filter(i => i.type === "weapon") || [];
+        context.weapons   = context.items.filter(i => i.type === "weapon")   || [];
+
+        // PASSE LE SYSTEM
+        context.system = actorData.system;
+
+        // LOGS
+        console.log("TALENTS :", context.talents.length);
+        console.log("CYBERWARE :", context.cyberware.length);
+        console.log("WEAPONS :", context.weapons.length);
         console.log(context);
         return context;
     }
@@ -154,6 +165,9 @@ export class CyberHackCharacterSheet extends ActorSheet {
             await this.actor.createEmbeddedDocuments("Item", [itemData]);
             console.log("Talent ajouté :", itemData.name);
             ui.notifications.info(`${itemData.name} ajouté !`);
+
+            await this.actor.update({});
+            this.render(true);
 
         } catch (err) {
             console.error("Erreur drop talent :", err);
