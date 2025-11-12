@@ -16,6 +16,8 @@
   "styles": [
     "css/cyber-hack.css"
   ],
+  "actorTypes": ["character"],
+  "itemTypes": ["talent"],
   "templatePath": "systems/cyber_hack_revised/templates",
   "languages": [
     {
@@ -25,9 +27,16 @@
       "flag": {}
     }
   ],
-  "packs": [],
+  "packs": [
+    {
+      "name": "talents",
+      "label": "Talents",
+      "path": "packs/talents.db",
+      "type": "Item"
+    }
+  ],
   "background": "",
   "url": "https://github.com/micka9fr/cyber_hack_revised",
   "manifest": "https://raw.githubusercontent.com/micka9fr/cyber_hack_revised/refs/heads/main/system.json",
-  "download": "https://github.com/micka9fr/cyber_hack_revised/archive/cyberHackRevised-v1.0.zip"
+  "download": "https://github.com/micka9fr/cyber_hack_revised/archive/cyberHackRevised-v1.0.1.zip"
 }

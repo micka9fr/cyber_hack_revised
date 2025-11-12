@@ -1,2 +1,20 @@
-<h3>TALENT</h3>
-<p>Ajoute ici tes talents...</p>
+<h3>TALENTS</h3>
+<div class="talents-dropzone" data-drop="talents">
+	<p class="drop-hint">Glisse-dépose tes talents ici</p>
+
+	<ol class="talents-list">
+		{{#each actor.items}}
+			{{#if (eq @item.type "talent")}}
+				<li class="talent-item flexrow" data-item-id="{{_id}}">
+					<span class="talent-name">{{name}}
+				          {{#if system.talentValue}}[{{system.talentValue}}]{{/if}}
+			        </span>
+					<div class="talent-controls">
+						<i class="fas fa-edit editable" title="Éditable"></i>
+						<i class="fas fa-times delete-talent" title="Supprimer"></i>
+					</div>
+				</li>
+			{{/if}}
+		{{/each}}
+	</ol>
+</div>

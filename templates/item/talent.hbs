@@ -1,0 +1,34 @@
+<form class="item-form cyberhack-talent">
+	<header class="sheet-header flexrow">
+		<img src="{{img}}" data-edit="img" title="{{name}}" height="80" width="80"/>
+		<div class="header-details flexcol">
+			<h1 contenteditable="true">{{name}}</h1>
+			<div class="talent-cost">Coût: <strong>{{system.cost}} IP</strong></div>
+		</div>
+	</header>
+
+	<section class="sheet-body">
+		<!-- Valeur du talent -->
+		<div class="talent-value">
+			<label>Valeur</label>
+			<input type="number" name="system.talentValue" value="{{system.talentValue}}" min="0" max="10"/>
+		</div>
+
+		<!-- Description -->
+		<div class="talent-desc">
+			<label>Description</label>
+			<textarea name="system.description">{{system.description}}</textarea>
+		</div>
+
+		<!-- Modificateurs -->
+		<div class="talent-modifiers">
+			<label>Modificateurs</label>
+			{{#each system.modifiers}}
+				<div class="modifier-row flexrow">
+					<span>{{@key}}</span>
+					<input type="number" name="system.modifiers.{{@key}}" value="{{this}}"/>
+				</div>
+			{{/each}}
+		</div>
+	</section>
+</form>

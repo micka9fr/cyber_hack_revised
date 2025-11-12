@@ -2,45 +2,76 @@
 export class CyberHackActor extends Actor {
 
     /** @override */
-    prepareBaseData() {
-        const system = this.system;
+    static defineSchema() {
+        const fields = foundry.data.fields;
 
-        // --- INITIALISATION FORCÉE ---
-        if (!system.attributs) {
-            system.attributs = {
-                body: { value: 5, label: "Body", skills: {} },
-                dexterity: { value: 5, label: "Dexterity", skills: {} },
-                reflexes: { value: 5, label: "Reflexes", skills: {} },
-                knowledge: { value: 5, label: "Knowledge", skills: {} },
-                willpower: { value: 5, label: "Willpower", skills: {} },
-                empathy: { value: 5, label: "Empathy", skills: {} }
-            };
-        }
+        return {
+            // === TOUT LE RESTE DANS system ===
+            system: new fields.SchemaField({
+                // === ATTRIBUTS ===
+                attributs: new fields.ObjectField({
+                    required: true,
+                    initial: {
+                        body: { value: 5, label: "Body", skills: {} },
+                        dexterity: { value: 5, label: "Dexterity", skills: {} },
+                        reflexes: { value: 5, label: "Reflexes", skills: {} },
+                        knowledge: { value: 5, label: "Knowledge", skills: {} },
+                        willpower: { value: 5, label: "Willpower", skills: {} },
+                        empathy: { value: 5, label: "Empathy", skills: {} }
+                    }
+                }),
 
-        // Initialiser les champs manquants
-        if (!system.wounds) system.wounds = { value: 0, max: 0 };
-        if (!system.btm) system.btm = { value: 0 };
-        if (!system.speed) system.speed = { value: 0 };
-        if (!system.carry) system.carry = { value: 0 };
-        if (!system.luck) system.luck = { value: 0 };
-        if (!system.otherInfo) system.otherInfo = { value: "" };
-        if (!system.armor) {
-            system.armor = {
-                head: { value: 0 }, torso: { value: 0 },
-                rightArm: { value: 0 }, leftArm: { value: 0 },
-                rightLeg: { value: 0 }, leftLeg: { value: 0 }
-            };
-        }
-        if (!system.ranges) {
-            system.ranges = {
-                handguns: { close: 50, medium: 100, long: 200, extreme: 400 },
-                smgRifles: { close: 100, medium: 200, long: 400, extreme: 800 },
-                shotgun: { close: 50, medium: 100, long: 200, extreme: 0 }
-            };
-        }
+                // === STATS ===
+                wounds: new fields.SchemaField({
+                    value: new fields.NumberField({ required: true, initial: 0, min: 0 }),
+                    max: new fields.NumberField({ required: true, initial: 10, min: 1 })
+                }),
+                btm: new fields.SchemaField({
+                    value: new fields.NumberField({ required: true, initial: 0 })
+                }),
+                speed: new fields.SchemaField({
+                    value: new fields.NumberField({ required: true, initial: 7 })
+                }),
+                carry: new fields.SchemaField({
+                    value: new fields.NumberField({ required: true, initial: 50 })
+                }),
+                luck: new fields.SchemaField({
+                    value: new fields.NumberField({ required: true, initial: 5 })
+                }),
+                otherInfo: new fields.SchemaField({
+                    value: new fields.StringField({ initial: "" })
+                }),
+                biography: new fields.HTMLField({ initial: "" }),
+
+                // === ARMOR ===
+                armor: new fields.ObjectField({
+                    required: true,
+                    initial: {
+                        head: { value: 0 }, torso: { value: 0 },
+                        rightArm: { value: 0 }, leftArm: { value: 0 },
+                        rightLeg: { value: 0 }, leftLeg: { value: 0 }
+                    }
+                }),
+
+                // === RANGES ===
+                ranges: new fields.ObjectField({
+                    required: true,
+                    initial: {
+                        handguns: { close: 50, medium: 100, long: 200, extreme: 400 },
+                        smgRifles: { close: 100, medium: 200, long: 400, extreme: 800 },
+                        shotgun: { close: 50, medium: 100, long: 200, extreme: 0 }
+                    }
+                }),
+
+                // === MENU SIDEBAR ===
+                menu: new fields.ArrayField(
+                    new fields.StringField(),
+                    { initial: ["talents", "weapons", "gears", "net", "life", "cyberwares"] }
+                )
+            })
+        };
     }
 
-    /** @override */
     prepareDerivedData() {
         const system = this.system;
         const body = system.attributs.body.value;

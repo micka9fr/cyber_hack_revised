@@ -1,25 +1,25 @@
 // systems/cyber_hack_revised/cyber_hack.js
 import { CyberHackActor } from "./module/actor/actor.js";
 import { CyberHackCharacterSheet } from "./module/actor/actor-sheet.js";
+import { TalentItem } from "./module/items/talent.js";
 
-// === ENREGISTREMENT DU HELPER "times" ===
 Hooks.once('init', () => {
-    console.log("Cyber Hack Revised | Initialisation");
+    console.log("Cyber Hack | INIT V13");
 
-    // Enregistrer le helper {{#times}}
-    Handlebars.registerHelper('times', function(n, block) {
-        let accum = '';
-        for (let i = 0; i < n; ++i) {
-            block.data.index = i;
-            accum += block.fn(i);
-        }
-        return accum;
-    });
-
-    // Enregistrer la classe Actor
+    // === 1. ACTOR ===
     CONFIG.Actor.documentClass = CyberHackActor;
+    CONFIG.Actor.dataModels.character = CyberHackActor;
+    CONFIG.Actor.typeLabels = {
+        character: "Cyber Hack Character"
+    };
 
-    // Enregistrer la feuille
+    // === 2. ITEM ===
+    CONFIG.Item.dataModels.talent = TalentItem;
+    CONFIG.Item.typeLabels = {
+        talent: "Talent"
+    };
+
+    // === 3. FEUILLES ===
     Actors.unregisterSheet("core", ActorSheet);
     Actors.registerSheet("cyberhack", CyberHackCharacterSheet, {
         types: ["character"],
@@ -27,7 +27,14 @@ Hooks.once('init', () => {
         label: "Cyber Hack Sheet"
     });
 
-    // Charger les templates .hbs
+    Items.unregisterSheet("core", ItemSheet);
+    Items.registerSheet("cyber_hack_revised", ItemSheet, {
+        types: ["talent"],
+        makeDefault: true,
+        label: "Fiche Talent"
+    });
+
+    // === 4. TEMPLATES ===
     loadTemplates([
         "systems/cyber_hack_revised/templates/actor/actor-sheet.hbs",
         "systems/cyber_hack_revised/templates/actor/parts/actor-items.hbs"
@@ -44,23 +51,6 @@ Hooks.once('ready', async () => {
         "systems/cyber_hack_revised/templates/actor/parts/sidebar-life.hbs"
     ];
 
-    try {
-        await loadTemplates(partials);
-        console.log("Cyber Hack | Partials chargés !");
-    } catch (e) {
-        console.error("Cyber Hack | Erreur chargement partials :", e);
-    }
-});
-
-Handlebars.registerHelper({
-    set: function (varName, varValue, options) {
-        options.data.root[varName] = varValue;
-    },
-    get: function (varName, options) {
-        return options.data.root[varName];
-    },
-    concat: function (...args) {
-        args.pop(); // retire `options`
-        return args.join('');
-    }
+    await loadTemplates(partials);
+    console.log("Cyber Hack | Partials chargés !");
 });

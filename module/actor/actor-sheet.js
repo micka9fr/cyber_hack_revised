@@ -67,6 +67,18 @@ export class CyberHackCharacterSheet extends ActorSheet {
             const firstTab = html.find('.sheet-tabs-sidebar .item').first().data('tab');
             html.find(`.sheet-content-sidebar .tab[data-tab="${firstTab}"]`).addClass('active');
         }
+
+        // === DRAG & DROP TALENTS ===
+        this._setupDropZones(html);
+
+        // === SUPPRIMER TALENT ===
+        html.find('.delete-talent').click(this._onDeleteTalent.bind(this));
+
+        // === ÉDITER TALENT ===
+        html.find('.talent-item .editable').click(this._onEditTalent.bind(this));
+
+
+
     }
 
     async _onRoll(event) {
@@ -80,4 +92,57 @@ export class CyberHackCharacterSheet extends ActorSheet {
             flavor: `<strong>${label}</strong>`
         });
     }
+
+    // Drop zones
+    _setupDropZones(html) {
+        const dropZones = html.find('[data-drop="talents"]');
+        dropZones[0].addEventListener('dragover', ev => ev.preventDefault());
+        dropZones[0].addEventListener('drop', this._onDropTalent.bind(this));
+    }
+
+    async _onDropTalent(event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        try {
+            const data = JSON.parse(event.dataTransfer.getData('text/plain'));
+            if (data.type !== "Item") return;
+
+            // Récupère les données brutes
+            let itemData = foundry.utils.deepClone(data);
+
+            // FORCER LES CHAMPS OBLIGATOIRES
+            itemData = {
+                name: itemData.name || "Talent Inconnu",
+                type: "talent",  // OBLIGATOIRE
+                system: itemData.system || {},
+                img: itemData.img || "icons/svg/mystery-man.svg"
+            };
+
+            // Nettoie les _id si présent (évite les conflits)
+            delete itemData._id;
+
+            // Crée l'item
+            await this.actor.createEmbeddedDocuments("Item", [itemData]);
+            this.render();
+
+        } catch (err) {
+            console.error("Cyber Hack | Erreur Drop Talent :", err);
+            ui.notifications.error("Impossible d'ajouter le talent.");
+        }
+    }
+
+    _onDeleteTalent(event) {
+        event.preventDefault();
+        const itemId = event.currentTarget.closest('.talent-item').dataset.itemId;
+        this.actor.deleteEmbeddedDocuments("Item", [itemId]);
+    }
+
+    _onEditTalent(event) {
+        event.preventDefault();
+        const itemId = event.currentTarget.closest('.talent-item').dataset.itemId;
+        const item = this.actor.items.get(itemId);
+        item.sheet.render(true);
+    }
+
 }

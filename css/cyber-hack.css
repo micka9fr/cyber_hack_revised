@@ -107,3 +107,64 @@
     border-top: 2px solid #fff;
     padding-top: 10px;
 }
+
+/** TALENTS **/
+.talents-dropzone {
+    min-height: 200px;
+    border: 2px dashed var(--color-border-light);
+    border-radius: 8px;
+    padding: 16px;
+    background: var(--color-bg-primary);
+    transition: all 0.3s ease;
+}
+
+.talents-dropzone:hover,
+.talents-dropzone.dragover {
+    border-color: var(--color-accent-primary);
+    background: rgba(var(--color-accent-primary-rgb), 0.1);
+}
+
+.drop-hint {
+    text-align: center;
+    color: var(--color-text-light);
+    font-style: italic;
+    margin-bottom: 12px;
+}
+
+.talents-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.talent-item {
+    padding: 8px 12px;
+    margin-bottom: 6px;
+    background: var(--color-bg-secondary);
+    border-radius: 4px;
+    border-left: 4px solid var(--color-accent-primary);
+    align-items: center;
+    gap: 12px;
+}
+
+.talent-name {
+    flex: 1;
+    font-weight: 600;
+}
+
+.talent-controls {
+    display: flex;
+    gap: 4px;
+}
+
+.talent-controls i {
+    padding: 4px;
+    cursor: pointer;
+    border-radius: 3px;
+    transition: background 0.2s;
+}
+
+.talent-controls i:hover {
+    background: var(--color-accent-primary);
+    color: var(--color-text-dark);
+}
