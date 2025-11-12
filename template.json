@@ -110,5 +110,14 @@
         "empathy": { "value": 5, "label": "Empathy", "skills": {} }
       }
     }
+  },
+  "Item": {
+    "types": ["talent"],
+    "talent": {
+      "talentValue": null,
+      "cost": 1,
+      "description": "",
+      "modifiers": {}
+    }
   }
 }

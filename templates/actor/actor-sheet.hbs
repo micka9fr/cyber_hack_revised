@@ -104,8 +104,8 @@
 			<!-- CONTENU DES ONGLETS -->
 			<div class="sheet-content-sidebar">
 				{{#each actor.system.menu}}
-					<div class="tab {{this}} active" data-group="sidebar" data-tab="{{this}}">
-						{{set "partialPath" (concat "systems/cyber_hack_revised/templates/actor/parts/sidebar-" this ".hbs")}}
+					<div class="tab {{this}}" data-group="sidebar" data-tab="{{this}}">
+						<p>{{set "partialPath" (concat "systems/cyber_hack_revised/templates/actor/parts/sidebar-" this ".hbs")}}</p>
 						{{> (get "partialPath")}}
 					</div>
 				{{/each}}
