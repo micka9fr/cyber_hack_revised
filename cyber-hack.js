@@ -1,6 +1,7 @@
 // systems/cyber_hack_revised/cyber-hack.js
 import { CyberHackActor } from "./module/actor/actor.js";
 import { CyberHackCharacterSheet } from "./module/actor/actor-sheet.js";
+import { TalentSheet } from "./module/items/talent-sheet.js";
 
 Hooks.once('init', () => {
     console.log("Cyber Hack | INIT");
@@ -24,12 +25,20 @@ Hooks.once('init', () => {
     // === ACTOR ===
     CONFIG.Actor.documentClass = CyberHackActor;
 
-    // === SHEETS ===
+    // === ACTOR SHEETS ===
     Actors.unregisterSheet("core", ActorSheet);
     Actors.registerSheet("cyberhack", CyberHackCharacterSheet, {
         types: ["character"],
         makeDefault: true,
         label: "Cyber Hack Sheet"
+    });
+
+    // === TALENT SHEETS ===
+    Items.unregisterSheet("core", ItemSheet);
+    Items.registerSheet("cyberhack", TalentSheet, {
+        types: ["talent"],
+        makeDefault: true,
+        label: "Fiche Talent"
     });
 
     // === TEMPLATES ===

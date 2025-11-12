@@ -1,0 +1,51 @@
+<form class="talent-sheet">
+	<header class="sheet-header">
+		<img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}" />
+		<div class="header-fields">
+			<h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="Nom du Talent" /></h1>
+		</div>
+	</header>
+
+	<div class="sheet-tabs tabs">
+		<a class="item" data-tab="description">Description</a>
+		<a class="item" data-tab="modifiers">Modificateurs</a>
+	</div>
+
+	<div class="sheet-body">
+		<!-- === DESCRIPTION === -->
+		<div class="tab" data-tab="description">
+			{{editor
+					content=system.description
+					target="system.description"
+					button=true
+					owner=owner
+					editable=editable
+			}}
+		</div>
+
+		<!-- === MODIFICATEURS === -->
+		<div class="tab" data-tab="modifiers">
+			<div class="form-group">
+				<label>Coût</label>
+				<input type="number" name="system.cost" value="{{system.cost}}" data-dtype="Number" />
+			</div>
+
+			<div class="form-group">
+				<label>Valeur Talent</label>
+				<input type="number" name="system.talentValue" value="{{system.talentValue}}" data-dtype="Number" placeholder="ex: 3" />
+			</div>
+
+			<h3>Modificateurs</h3>
+			<div class="modifiers-list">
+				{{#each system.modifiers}}
+					<div class="modifier-item flexrow" data-key="{{@key}}">
+						<input type="text" name="system.modifiers.{{@key}}.key" value="{{this.key}}" placeholder="ex: REF" />
+						<input type="number" name="system.modifiers.{{@key}}.value" value="{{this.value}}" data-dtype="Number" />
+						<a class="delete-modifier" title="Supprimer"><i class="fas fa-trash"></i></a>
+					</div>
+				{{/each}}
+			</div>
+			<a class="add-modifier"><i class="fas fa-plus"></i> Ajouter un modificateur</a>
+		</div>
+	</div>
+</form>

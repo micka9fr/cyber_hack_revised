@@ -144,5 +144,4 @@ export class CyberHackCharacterSheet extends ActorSheet {
         const item = this.actor.items.get(itemId);
         item.sheet.render(true);
     }
-
 }
